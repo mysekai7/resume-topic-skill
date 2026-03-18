@@ -20,9 +20,9 @@ Restore context from a previous session and continue the conversation with minim
 
 ### 0) Confirm keyword
 
-If the user didn’t provide a keyword, ask a single question
+If the user didn't provide a keyword, ask in Chinese:
 
-- “要从哪个关键词恢复上下文”
+"要从哪个关键词恢复上下文？"
 
 ### 1) Locate OpenClaw dirs
 
@@ -38,7 +38,7 @@ KEYWORD="<keyword>"
 
 ### 2) Search memory first (fast path)
 
-Search `memory/` and `MEMORY.md` first, because they’re curated and cheaper to read
+Search `memory/` and `MEMORY.md` first, because they're curated and cheaper to read
 
 ```bash
 if command -v rg >/dev/null 2>/dev/null; then
@@ -56,7 +56,7 @@ Important
 
 - Include reset logs too, they look like `*.jsonl.reset.*`
 - Prefer **recent** sessions first
-- Don’t print huge blobs
+- Don't print huge blobs
 - Guard against whitespace in paths by treating match output as newline-delimited
 
 ```bash
@@ -70,9 +70,9 @@ fi
 echo "$MATCHED_FILES"
 ```
 
-If nothing matches, say so and ask for a different keyword.
+If nothing matches, respond in Chinese:
 
-Example: "没找到包含「关键词」的记录，换个词试试？"
+"没找到包含「{keyword}」的记录，换个词试试？"
 
 #### Show a shortlist with timestamps
 
@@ -153,25 +153,25 @@ jq -r '
 
 ### 5) Reconstruct context for the user
 
-Summarize in 3–6 bullet points
+Summarize in 3-6 bullet points
 
-- User’s goal
-- What’s been tried / decided
+- User's goal
+- What's been tried / decided
 - Key commands / files / links
 - Current status
-- Next 1–3 actions
+- Next 1-3 actions
 
-Then ask one question
+After presenting the summary, ask in Chinese:
 
-Example: "要继续这个话题吗？还是换个方向？"
+"要继续这个话题吗？还是换个方向？"
 
-- “我们从哪一步继续”
+- "我们从哪一步继续"
 
 If intent is crystal-clear, continue immediately.
 
 ### 6) Optional: write back to memory
 
-If this topic is important and not captured yet, append a short summary to today’s memory file
+If this topic is important and not captured yet, append a short summary to today's memory file
 
 ```bash
 TODAY=$(date +%Y-%m-%d)
