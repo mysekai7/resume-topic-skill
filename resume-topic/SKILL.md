@@ -19,7 +19,11 @@ Restore context from a previous session and continue the conversation.
 ### 1) Search memory first (fast path)
 
 ```bash
-rg -n "KEYWORD" ~/.openclaw/workspace/memory/ ~/.openclaw/workspace/MEMORY.md 2/dev/null | head -n 60
+if command -v rg >/dev/null 2>/dev/null; then
+  rg -n "KEYWORD" ~/.openclaw/workspace/memory/ ~/.openclaw/workspace/MEMORY.md 2>/dev/null | head -n 60
+else
+  grep -RIn -- "KEYWORD" ~/.openclaw/workspace/memory/ ~/.openclaw/workspace/MEMORY.md 2>/dev/null | head -n 60
+fi
 ```
 
 If memory matches, use it directly and skip the session-log search.
@@ -28,7 +32,11 @@ If memory matches, use it directly and skip the session-log search.
 
 ```bash
 # Find sessions containing the keyword
-rg -l "KEYWORD" ~/.openclaw/agents/main/sessions/*.jsonl 2/dev/null
+if command -v rg >/dev/null 2>/dev/null; then
+  rg -l "KEYWORD" ~/.openclaw/agents/main/sessions/*.jsonl 2>/dev/null
+else
+  grep -RIl -- "KEYWORD" ~/.openclaw/agents/main/sessions/*.jsonl 2>/dev/null
+fi
 
 # Show time range for each matching session
 for f in MATCHED_FILES; do
@@ -44,8 +52,12 @@ done | sort -r
 ```bash
 # User messages (filtered, no metadata noise)
 jq -r 'select(.type=="message" and .message.role=="user") | (.message.content[]? | select(.type=="text") | .text)' SESSION.jsonl \
-| rg -v 'Conversation info|untrusted metadata|```json|\{|\}|sender_id|message_id|sender:|timestamp:|group_subject|is_group_chat|conversation_label' \
-| sed '/^\s*$/d' | head -n 80
+| { if command -v rg >/dev/null 2>/dev/null; then
+    rg -v 'Conversation info|untrusted metadata|```json|\{|\}|sender_id|message_id|sender:|timestamp:|group_subject|is_group_chat|conversation_label';
+  else
+    grep -Ev 'Conversation info|untrusted metadata|```json|\{|\}|sender_id|message_id|sender:|timestamp:|group_subject|is_group_chat|conversation_label';
+  fi; } \
+| sed '/^[[:space:]]*$/d' | head -n 80
 
 # Assistant messages (key outputs)
 jq -r 'select(.type=="message" and .message.role=="assistant") | (.message.content[]? | select(.type=="text") | .text)' SESSION.jsonl \

@@ -25,12 +25,12 @@ continue the previous topic about KEYWORD
 
 ## Install
 
-In the commands below, replace `OWNER` with your GitHub username or organization.
+In the commands below, default install links point to `mysekai7/resume-topic-skill`. If you fork, replace the owner/repo accordingly.
 
 ### Option A — clone and copy the skill folder
 
 ```bash
-git clone https://github.com/OWNER/resume-topic-skill.git
+git clone https://github.com/mysekai7/resume-topic-skill.git
 cd resume-topic-skill
 cp -r resume-topic ~/.openclaw/skills/
 openclaw gateway restart
@@ -41,7 +41,7 @@ openclaw gateway restart
 ```bash
 mkdir -p ~/.openclaw/skills/resume-topic
 curl -fsSL \
-  https://raw.githubusercontent.com/OWNER/resume-topic-skill/main/resume-topic/SKILL.md \
+  https://raw.githubusercontent.com/mysekai7/resume-topic-skill/main/resume-topic/SKILL.md \
   -o ~/.openclaw/skills/resume-topic/SKILL.md
 openclaw gateway restart
 ```
@@ -51,7 +51,7 @@ openclaw gateway restart
 If you are an AI agent and need to self-install from the repository, prefer a fully non-interactive flow:
 
 ```bash
-OWNER=${OWNER:-OWNER}
+OWNER=${OWNER:-mysekai7}
 REPO=${REPO:-resume-topic-skill}
 
 mkdir -p ~/.openclaw/skills/resume-topic
@@ -70,7 +70,8 @@ OpenClaw auto-discovers skills under `~/.openclaw/skills/` on startup.
 ## Requirements
 
 - OpenClaw installed and running
-- `jq` and `rg` (ripgrep) available in PATH
+- `jq` available in PATH
+- Search tool: `rg` (ripgrep, recommended) or `grep` (fallback)
 - Session logs at `~/.openclaw/agents/main/sessions/*.jsonl`
 - Memory files at `~/.openclaw/workspace/memory/`
 
