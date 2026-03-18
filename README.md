@@ -27,7 +27,7 @@ continue the last topic about cookie size
 ### Option A — clone and copy the skill folder
 
 ```bash
-git clone https://github.com/<you>/resume-topic-skill.git
+git clone https://github.com/mysekai7/resume-topic-skill.git
 cd resume-topic-skill
 cp -r resume-topic ~/.openclaw/skills/
 openclaw gateway restart
@@ -38,7 +38,7 @@ openclaw gateway restart
 ```bash
 mkdir -p ~/.openclaw/skills/resume-topic
 curl -fsSL \
-  https://raw.githubusercontent.com/<you>/resume-topic-skill/main/resume-topic/SKILL.md \
+  https://raw.githubusercontent.com/mysekai7/resume-topic-skill/main/resume-topic/SKILL.md \
   -o ~/.openclaw/skills/resume-topic/SKILL.md
 openclaw gateway restart
 ```
