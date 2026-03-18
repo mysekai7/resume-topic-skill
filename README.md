@@ -18,17 +18,19 @@ Note: this is **not** a built-in OpenClaw CLI command. It is a **message-trigger
 ## Usage
 
 ```text
-/resume <keyword>
-resume <keyword>
-continue the previous topic about <keyword>
+/resume KEYWORD
+resume KEYWORD
+continue the previous topic about KEYWORD
 ```
 
 ## Install
 
+In the commands below, replace `OWNER` with your GitHub username or organization.
+
 ### Option A — clone and copy the skill folder
 
 ```bash
-git clone https://github.com/<OWNER>/resume-topic-skill.git
+git clone https://github.com/OWNER/resume-topic-skill.git
 cd resume-topic-skill
 cp -r resume-topic ~/.openclaw/skills/
 openclaw gateway restart
@@ -39,7 +41,7 @@ openclaw gateway restart
 ```bash
 mkdir -p ~/.openclaw/skills/resume-topic
 curl -fsSL \
-  https://raw.githubusercontent.com/<OWNER>/resume-topic-skill/main/resume-topic/SKILL.md \
+  https://raw.githubusercontent.com/OWNER/resume-topic-skill/main/resume-topic/SKILL.md \
   -o ~/.openclaw/skills/resume-topic/SKILL.md
 openclaw gateway restart
 ```
@@ -49,8 +51,7 @@ openclaw gateway restart
 If you are an AI agent and need to self-install from the repository, prefer a fully non-interactive flow:
 
 ```bash
-# Set these from the GitHub page URL you are reading.
-OWNER=${OWNER:-<OWNER>}
+OWNER=${OWNER:-OWNER}
 REPO=${REPO:-resume-topic-skill}
 
 mkdir -p ~/.openclaw/skills/resume-topic
