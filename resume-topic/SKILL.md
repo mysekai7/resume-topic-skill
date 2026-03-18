@@ -72,6 +72,8 @@ echo "$MATCHED_FILES"
 
 If nothing matches, say so and ask for a different keyword.
 
+Example: "没找到包含「关键词」的记录，换个词试试？"
+
 #### Show a shortlist with timestamps
 
 ```bash
@@ -160,6 +162,8 @@ Summarize in 3–6 bullet points
 - Next 1–3 actions
 
 Then ask one question
+
+Example: "要继续这个话题吗？还是换个方向？"
 
 - “我们从哪一步继续”
 
