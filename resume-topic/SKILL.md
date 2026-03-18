@@ -80,13 +80,14 @@ echo "$MATCHED_FILES" | while IFS= read -r f; do
   [ -n "$f" ] || continue
   first=$(head -1 "$f" 2>/dev/null | jq -r '.timestamp // empty')
   last=$(tail -1 "$f" 2>/dev/null | jq -r '.timestamp // empty')
-  # Cross-platform stat: macOS uses -f, Linux uses -c
+  # Cross-platform stat: macOS uses -f, Linux uses -c, Windows fallback to ls
   if stat -f '%Sm' -t '%Y-%m-%d %H:%M:%S' "$f" >/dev/null 2>&1; then
     mtime=$(stat -f '%Sm' -t '%Y-%m-%d %H:%M:%S' "$f")
   elif stat -c '%y' "$f" >/dev/null 2>&1; then
     mtime=$(stat -c '%y' "$f" | cut -d'.' -f1)
   else
-    mtime="unknown"
+    # Fallback for Windows/Git Bash
+    mtime=$(ls -l --time-style=long-iso "$f" 2>/dev/null | awk '{print $6" "$7}' || echo "unknown")
   fi
   size=$(ls -lh "$f" | awk '{print $5}')
   echo "$mtime  $size  ${first:-?} -> ${last:-?}  $(basename "$f")"
