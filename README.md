@@ -1,6 +1,8 @@
 # resume-topic — OpenClaw Skill
 
-A lightweight **OpenClaw** skill that helps an agent resume a previous conversation topic by searching memory files first and then session JSONL logs.
+A lightweight **OpenClaw** skill that helps an agent resume a previous conversation topic.
+
+It searches **workspace memory first**, then falls back to **session JSONL logs**, and reconstructs the context into a short actionable summary.
 
 ## How it works
 
@@ -9,23 +11,26 @@ OpenClaw skills are markdown-based instruction files that extend agent behavior.
 `resume-topic` uses a two-stage lookup:
 
 1. **Memory search (fast path)**: `~/.openclaw/workspace/memory/` and `~/.openclaw/workspace/MEMORY.md`
-2. **Session log search (fallback)**: `~/.openclaw/agents/main/sessions/*.jsonl`
+2. **Session log search (fallback)**: `~/.openclaw/agents/main/sessions/*.jsonl*` (includes reset logs)
 
-Then it reconstructs context into 3–5 bullet points (goal / key findings / pending items) and continues the conversation.
-
-Note: this is **not** a built-in OpenClaw CLI command. It is a **message-triggered skill**: you type `/resume ...` in chat and the agent interprets it.
+Then it reconstructs context into 3–6 bullet points (goal / what was tried / decisions / current status / next actions).
 
 ## Usage
 
 ```text
 /resume KEYWORD
 resume KEYWORD
-continue the previous topic about KEYWORD
+继续 KEYWORD
+恢复 KEYWORD
+接着聊 KEYWORD
 ```
 
-## Install
+**Important for Telegram users:**
+- Do NOT register `/resume_topic` as a bot command in BotFather
+- Telegram commands cannot accept parameters after clicking
+- Users must type `/resume <keyword>` directly in chat
 
-In the commands below, default install links point to `mysekai7/resume-topic-skill`. If you fork, replace the owner/repo accordingly.
+## Install
 
 ### Option A — clone and copy the skill folder
 
@@ -46,34 +51,13 @@ curl -fsSL \
 openclaw gateway restart
 ```
 
-### AI self-install (for agents reading this README)
-
-If you are an AI agent and need to self-install from the repository, prefer a fully non-interactive flow:
-
-```bash
-OWNER=${OWNER:-mysekai7}
-REPO=${REPO:-resume-topic-skill}
-
-mkdir -p ~/.openclaw/skills/resume-topic
-curl -fsSL \
-  "https://raw.githubusercontent.com/${OWNER}/${REPO}/main/resume-topic/SKILL.md" \
-  -o ~/.openclaw/skills/resume-topic/SKILL.md
-
-# Optional verification
-test -s ~/.openclaw/skills/resume-topic/SKILL.md
-
-openclaw gateway restart
-```
-
-OpenClaw auto-discovers skills under `~/.openclaw/skills/` on startup.
-
 ## Requirements
 
 - OpenClaw installed and running
 - `jq` available in PATH
 - Search tool: `rg` (ripgrep, recommended) or `grep` (fallback)
-- Session logs at `~/.openclaw/agents/main/sessions/*.jsonl`
-- Memory files at `~/.openclaw/workspace/memory/`
+- Session logs under `~/.openclaw/agents/main/sessions/`
+- Workspace memory under `~/.openclaw/workspace/memory/`
 
 ## License
 
