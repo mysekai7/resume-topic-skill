@@ -15,6 +15,8 @@ OpenClaw skills are markdown-based instruction files that extend agent behavior.
 
 Then it reconstructs context into 3–6 bullet points (goal / what was tried / decisions / current status / next actions).
 
+**Cross-platform support**: Works on macOS, Linux, and Windows (Git Bash/WSL).
+
 ## Usage
 
 ```text
